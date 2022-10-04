@@ -1,0 +1,234 @@
+@use "resets";
+@use "variables" as *;
+@use "utils" as *;
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
+
+body {
+  font-family: $font-primary;
+  // min-height: 100vh;
+}
+
+.main-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: $v-light-gray ;
+}
+.background {
+  background: url(/src/assets/images/bg-mobile-light.jpg) no-repeat;
+  background-size: 100% ;
+  height: 35vh;
+}
+.container {
+  max-width: 600px;
+  padding: 5rem 2rem;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+
+  h1 {
+    color: $v-light-gray;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
+  }
+}
+.theme-btn {
+  cursor: pointer;
+}
+
+.form {
+  position: relative;
+  margin-bottom: 2rem;
+  .circle {
+    width: 22px;
+    aspect-ratio: 1/1;
+    border: 1px solid;
+    border-radius: 50%;
+    position: absolute;
+    top: 12px;
+    left: 10px;
+    border-color: $v-light-grayish-blue;
+  }
+  input {
+    width: 100%;
+    padding: 1rem;
+    padding-left: 3rem;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    color: $v-dark-grayish-blue;
+
+  }
+  input::placeholder {
+    font-size: 1rem;
+  }
+}
+.list {
+  background-color: white;
+  border-radius: 6px;
+}
+.single-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1rem;
+  position: relative;
+  border-bottom: 1px solid $light-grayish-blue;
+
+  .checkmark {
+    width: 22px;
+    aspect-ratio: 1/1;
+    border: 1px solid;
+    border-radius: 50%;
+    position: absolute;
+    top: 16px;
+    left: 15px;
+    border-color: $v-light-grayish-blue;
+    cursor: pointer;
+  }
+  p {
+    padding-left: 2.5rem;
+    color: $v-dark-grayish-blue;
+    cursor: pointer;
+  }
+}
+.delete-btn {
+  cursor: pointer;
+}
+
+.list-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.2rem 2rem;
+  color: $dark-grayish-blue;
+}
+.filter {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+.clear-btn {
+  cursor: pointer;
+}
+.desktop-filter {
+  display: flex;
+  gap: 1rem;
+
+  p {
+    cursor: pointer;
+  }
+}
+.filter {
+  background-color: white;
+  margin-top: 2rem;
+  padding: 1.2rem 2rem;
+  border-radius: 6px;
+  color: $dark-grayish-blue;
+  font-weight: 600;
+  cursor: pointer;
+}
+.align-center {
+  padding-top: 3rem;
+  text-align: center;
+  color: $dark-grayish-blue;
+  font-size: 1.2rem;
+}
+// completed states
+.completed .todoItem {
+  color:$dark-grayish-blue;
+  text-decoration: line-through;
+}
+.completed .checkmark{
+  background-image: url(../assets/images/icon-check.svg), linear-gradient(90deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%)) ;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+// dark mode class
+.dark {
+  background-color: $alt-v-dark-blue;
+  // transition: $transition-primary;
+ 
+  .background {
+    background: url(/src/assets/images/bg-mobile-dark.jpg) no-repeat;
+    background-size: cover;
+    height: 35vh;
+
+  }
+  .list {
+    background-color: $alt-v-dark-desaturated-blue;
+  }
+  .single-item {
+    border-bottom-color: $alt-v-dark-grayish-blue-shade;
+  }
+
+  input {
+    background-color: $alt-v-dark-desaturated-blue;
+  }
+ .filter {
+    background-color: $alt-v-dark-desaturated-blue;
+  }
+  .single-item {
+
+    p{
+      color:$alt-light-grayish-blue;
+    }
+  }
+  .form {
+
+    input {
+      color: $alt-light-grayish-blue;
+    }
+  }
+  .completed .todoItem {
+    color:$alt-v-dark-grayish-blue;
+    text-decoration: line-through;
+  }
+}
+// media queries
+@media screen and (max-width: 640px) {
+  .desktop-only {
+    display: none;
+  }
+}
+@media screen and (min-width: 641px) {
+  .mobile-only {
+    display: none;
+  }
+  .background {
+    background: url(/src/assets/images/bg-desktop-light.jpg) no-repeat;
+    background-size: cover;
+    height: 35vh;
+
+  }
+  .dark {
+
+    .background {
+      background: url(/src/assets/images/bg-desktop-dark.jpg) no-repeat;
+      background-size: cover;
+      height: 35vh;
+      .clear-btn:hover {
+        color: $alt-hover-light-grayish-blue;
+      }
+      .desktop-filter p:hover {
+        color: $alt-hover-light-grayish-blue;
+      }
+    }
+   
+  }
+  .main {
+    display: grid;
+    place-items: center;
+  }
+  .container {
+    width: 100%;
+  }
+  .clear-btn:hover {
+    color: $v-dark-grayish-blue;
+  }
+  .desktop-filter p:hover {
+    color: $v-dark-grayish-blue;
+  }
+}
