@@ -1,22 +1,51 @@
 import React, { useState } from "react";
 import { useGlobalContext } from "../context/context";
-const List = () => {
-  const { list, removeItem, completedItem, taskComplete, completedList } = useGlobalContext();
 
+const FILTER_MAP = {
+  All: () => true,
+  Active: (item) => !item.completed,
+  Completed: (item) => item.completed,
+};
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
+const List = () => {
+  const { list, removeItem, completedItem, setList } = useGlobalContext();
+  const [filter, setFilter] = useState(FILTER_NAMES[0]);
+
+  // filtered array
+  const filtered = list.filter(FILTER_MAP[filter]);
+
+  // amount of list left
+  const taskLength = () => {
+    const listLength = list.filter((item) => !item.completed);
+    return listLength.length;
+  };
+
+  // clear completed list
+  const clearCompleted = () => {
+    const completedTasks = list.filter((item) => {
+     return !item.completed
+
+    });
+    setList(completedTasks)
+  };
   return (
     <>
       <section className="list">
         {/* single item */}
         {list.length > 0 &&
-          list.map((item) => {
-            const { id, todoItem } = item;
+          filtered.map((item) => {
+            const { id, todoItem, completed } = item;
             return (
               <div className="single-item" key={id}>
-                <div className={`listName-check ${taskComplete ?'completed':''}`} onClick={()=> completedItem(id)}>
+                <div
+                  className={`listName-check ${completed ? "completed" : ""}`}
+                  onClick={() => completedItem(id)}
+                >
                   <div className="checkmark"></div>
                   <p className="todoItem">{todoItem}</p>
                 </div>
-                <button className="delete-btn" onClick={()=>removeItem(id)}>
+                <button className="delete-btn" onClick={() => removeItem(id)}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -34,19 +63,39 @@ const List = () => {
           })}
         {/* end of single item */}
         <div className="list-footer">
-          <p>{list.length} items left</p>
-          <div className="desktop-filter desktop-only">
-            <p>All</p>
-            <p>Active</p>
-            <p>Completed</p>
+          <p>
+            {taskLength()} {`${list.length !== 1 ? "tasks" : "task"}`} left
+          </p>
+          <div className={` desktop-filter desktop-only`}>
+            {FILTER_NAMES.map((name) => {
+              return (
+                <p
+                  className={`${filter === name ? "active" : ""}`}
+                  key={name}
+                  onClick={() => setFilter(name)}
+                >
+                  {name}
+                </p>
+              );
+            })}
           </div>
-          <p className="clear-btn">Clear Completed</p>
+          <p className="clear-btn" onClick={clearCompleted}>
+            Clear Completed
+          </p>
         </div>
       </section>
       <div className="mobile-only filter">
-        <p>All</p>
-        <p>Active</p>
-        <p>Completed</p>
+        {FILTER_NAMES.map((name) => {
+          return (
+            <p
+              className={`${filter === name ? "active" : ""}`}
+              key={name}
+              onClick={() => setFilter(name)}
+            >
+              {name}
+            </p>
+          );
+        })}
       </div>
     </>
   );

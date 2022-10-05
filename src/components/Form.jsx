@@ -3,11 +3,6 @@ import { useGlobalContext } from "../context/context";
 
 const Form = () => {
   const {name, setName, handleSubmit} = useGlobalContext()
-  // const [name, setName] = useState("");
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   console.log('hello');
-  // };
 
   return (
     <section>

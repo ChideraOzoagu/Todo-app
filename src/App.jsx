@@ -3,10 +3,9 @@ import "./styles/index.scss";
 import Form from "./components/Form";
 import List from "./components/List";
 import Header from "./components/Header";
-
+import { useGlobalContext } from "./context/context";
 function App() {
-  const [theme, setTheme] = useState('light');
-
+const {theme, setTheme} = useGlobalContext()
   return (
     <div className={`main-wrapper ${theme}`}>
       <section className="background main">

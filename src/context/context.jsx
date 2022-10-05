@@ -1,11 +1,33 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 export const AppContext = React.createContext();
+
+const getLocalStorage = () => {
+  let list = localStorage.getItem("list");
+  if (list) {
+    return (list = JSON.parse(list));
+  } else {
+    return [];
+  }
+  
+};
+const themeStorage = () => {
+  let theme = localStorage.getItem("theme");
+  if (theme) {
+    return (theme = JSON.parse(theme));
+  } else {
+    return "dark";
+  }
+};
 
 export const AppProvider = ({ children }) => {
   const [name, setName] = useState("");
-  const [list, setList] = useState([]);
-  const [taskComplete, setTaskComplete] = useState(false)
-  const [completedList, setCompletedList] = useState([])
+  const [list, setList] = useState(getLocalStorage());
+  const [theme, setTheme] = useState(themeStorage());
+
+  useEffect(() => {
+    localStorage.setItem("list", JSON.stringify(list));
+    localStorage.setItem("theme", JSON.stringify(theme));
+  }, [list, theme]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,6 +35,7 @@ export const AppProvider = ({ children }) => {
       const newItem = {
         id: new Date().getTime().toString(),
         todoItem: name,
+        completed: false,
       };
       setList([...list, newItem]);
       setName("");
@@ -20,14 +43,18 @@ export const AppProvider = ({ children }) => {
   };
   const removeItem = (id) => {
     const newList = list.filter((item) => item.id !== id);
-    setList(newList)
+    setList(newList);
   };
-  const completedItem = (id)=>{
-    const newList = list.filter((item)=> item.id === id)
-    setTaskComplete(!taskComplete)
-    // setCompletedList([...completedList, newList])
-    
-  }
+  const completedItem = (id) => {
+    const tempList = list.map((item) => {
+      if (item.id === id) {
+        return { ...item, completed: !item.completed };
+      }
+      return { ...item };
+    });
+    setList(tempList);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -37,9 +64,10 @@ export const AppProvider = ({ children }) => {
         list,
         setList,
         removeItem,
-        taskComplete,
         completedItem,
-        completedList,
+        setList,
+        theme,
+        setTheme,
       }}
     >
       {children}

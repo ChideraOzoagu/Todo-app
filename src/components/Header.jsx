@@ -1,8 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from "react";
+import { useGlobalContext } from '../context/context';
 
-const Header = ({theme, setTheme}) => {
-
+const Header = () => {
+const {theme, setTheme} = useGlobalContext()
   return (
     <div className="header">
     <h1>todo</h1>
