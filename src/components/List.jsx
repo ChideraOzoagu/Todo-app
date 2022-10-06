@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useGlobalContext } from "../context/context";
 
 const FILTER_MAP = {
@@ -24,20 +24,50 @@ const List = () => {
   // clear completed list
   const clearCompleted = () => {
     const completedTasks = list.filter((item) => {
-     return !item.completed
-
+      return !item.completed;
     });
-    setList(completedTasks)
+    setList(completedTasks);
   };
+
+  // drag and drop functionality
+  const dragItem = useRef();
+  const dragOverItem = useRef();
+
+  const dragStart = (e, position) => {
+    dragItem.current = position;
+  };
+
+  const dragEnter = (e, position) => {
+    dragOverItem.current = position;
+
+  };
+  
+  const drop =()=>{
+    const copyListItems = [...list];
+    const dragItemContent = copyListItems[dragItem.current]
+    copyListItems.splice(dragItem.current, 1)
+    copyListItems.splice(dragOverItem.current, 0, dragItemContent)
+    setList(copyListItems);
+    dragItem.current = null;
+    dragOverItem.current = null;
+  }
+
   return (
     <>
       <section className="list">
         {/* single item */}
         {list.length > 0 &&
-          filtered.map((item) => {
+          filtered.map((item, index) => {
             const { id, todoItem, completed } = item;
             return (
-              <div className="single-item" key={id}>
+              <div
+                className="single-item"
+                key={id}
+                onDragStart={(e) => dragStart(e, index)}
+                onDragEnter={(e) => dragEnter(e, index)}
+                onDragEnd={drop}
+                draggable
+              >
                 <div
                   className={`listName-check ${completed ? "completed" : ""}`}
                   onClick={() => completedItem(id)}
