@@ -14,7 +14,7 @@ const {theme, setTheme} = useGlobalContext()
           <Form />
           <List />
         </div>
-        <p className="align-center">Drag and drop to organize list</p>
+      <p className="align-center">Drag and drop to organize list</p>
       </section>
     </div>
   );
