@@ -15,9 +15,10 @@ body {
   }
 }
 
+
 .main-wrapper {
-  width: 100vw;
-  height: 100vh;
+  // width: 100vw;
+  min-height: 100vh;
   background-color: $v-light-gray ;
 
 }
@@ -28,7 +29,7 @@ body {
 }
 .container {
   max-width: 600px;
-  padding: 5rem 2rem;
+  padding: 5rem 2rem 0;
 }
 .header {
   display: flex;
@@ -138,19 +139,37 @@ body {
   justify-content: center;
   gap: 2rem;
   animation: slide-up 1.5s;
+  -webkit-tap-highlight-color: transparent;
+  p{
+
+    &:active {
+      color:$bright-blue;
+    }
+  }
 
 }
 .clear-btn {
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active{
+    color: $alt-v-dark-blue;
+  }
 }
+
 .desktop-filter {
   display: flex;
   gap: 1rem;
   font-size: 1.1rem;
   font-weight: 700;
+  -webkit-tap-highlight-color: transparent;
 
   p {
     cursor: pointer;
+
+    &:active {
+      color: $bright-blue;
+    }
   }
 }
 .filter {
@@ -163,10 +182,11 @@ body {
   cursor: pointer;
 }
 .align-center {
-  padding-top: 3rem;
+  padding: 3rem 0;
   text-align: center;
   color: $dark-grayish-blue;
   font-size: 1.2rem;
+  background-color: $v-light-gray;
 }
 // completed states
 .completed .todoItem {
@@ -187,8 +207,10 @@ body {
 // dark mode class
 .dark {
   background-color: $alt-v-dark-blue;
-  // transition: $transition-primary;
- 
+  
+  .align-center{
+    background-color: $alt-v-dark-blue;
+  }
   .background {
     background: url(/src/assets/images/bg-mobile-dark.jpg) no-repeat;
     background-size: cover;
